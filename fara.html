@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Sematary: El Desafío Oscuro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030304;
+            color: #d1d5db;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+        }
+        @media (min-width: 768px) {
+            body { padding: 2rem; }
+        }
+        /* Fondo con el GIF animado directo de Giphy y sin difuminado */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://media4.giphy.com/media/aEKW5rubTUOOa0nnSX/giphy.gif');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.4) contrast(1.1);
+            z-index: -1;
+        }
+        .gothic-title {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.15em;
+        }
+        .blood-glow {
+            box-shadow: 0 0 30px rgba(185, 28, 28, 0.4), inset 0 0 20px rgba(185, 28, 28, 0.2);
+        }
+        .blood-btn {
+            background: linear-gradient(135deg, rgba(127, 29, 29, 0.85) 0%, rgba(69, 10, 10, 0.85) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            backdrop-filter: blur(6px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .blood-btn:hover {
+            background: linear-gradient(135deg, rgba(153, 27, 27, 0.95) 0%, rgba(127, 29, 29, 0.95) 100%);
+            border-color: rgba(239, 68, 68, 0.9);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+            transform: translateY(-2px);
+        }
+        /* Caja principal translúcida para apreciar el fondo */
+        .translucent-box {
+            background: rgba(10, 10, 14, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        /* Tarjetas de opciones translúcidas */
+        .option-card {
+            background: rgba(15, 15, 22, 0.6);
+            border: 1px solid rgba(55, 65, 81, 0.5);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            transition: all 0.25s ease;
+        }
+        .option-card:hover {
+            border-color: rgba(239, 68, 68, 0.7);
+            background: rgba(30, 20, 30, 0.75);
+            transform: translateX(4px);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; text-shadow: 0 0 12px rgba(239, 68, 68, 0.8); }
+        }
+        .pulse-text {
+            animation: pulseGlow 3s infinite;
+        }
+        @keyframes flashPenalty {
+            0% { color: #facc15; }
+            50% { color: #ef4444; transform: scale(1.1); }
+            100% { color: #facc15; }
+        }
+        .penalty-flash {
+            animation: flashPenalty 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Encabezado Gótico -->
+    <header class="text-center my-4 z-10">
+        <div class="inline-block px-4 py-1 mb-2 rounded-full border border-red-900/40 bg-red-950/40 text-red-400 text-xs tracking-widest uppercase font-semibold backdrop-blur-md">
+            Stephen King Universe
+        </div>
+        <h1 class="gothic-title text-3xl md:text-5xl font-black text-red-600 tracking-wider mb-2 drop-shadow-[0_2px_15px_rgba(220,38,38,0.9)]">
+            CEMENTERIO DE ANIMALES
+        </h1>
+        <p class="text-sm md:text-base text-gray-200 font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+            Juicio y Supervivencia • Capítulos 36 al 40
+        </p>
+    </header>
+
+    <!-- Contenedor Principal Translúcido -->
+    <main class="w-full max-w-2xl translucent-box rounded-2xl blood-glow p-6 md:p-8 relative overflow-hidden my-auto z-10">
+        
+        <!-- Elemento decorativo gótico esquinas -->
+        <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-red-700/60 m-2 pointer-events-none"></div>
+        <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-red-700/60 m-2 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-red-700/60 m-2 pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-red-700/60 m-2 pointer-events-none"></div>
+
+        <!-- Pantalla de Juego -->
+        <div id="game-screen" class="animate-fade-in">
+            <!-- Barra de Estado Dinámica -->
+            <div class="flex justify-between items-center bg-black/55 border border-gray-800/70 px-4 py-3 rounded-xl mb-6 text-sm backdrop-blur-md">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+                    <span class="text-gray-300 uppercase tracking-wider text-xs">Progreso:</span> 
+                    <span id="current-q" class="font-bold text-white text-base">1</span><span class="text-gray-400">/5</span>
+                </div>
+                <div class="flex items-center gap-2 bg-black/50 px-3 py-1 rounded-lg border border-red-950/70">
+                    <span class="text-red-400 text-xs">⏱️ TIEMPO:</span>
+                    <span id="time-display" class="font-mono font-bold text-amber-400 text-base">00:00</span>
+                </div>
+            </div>
+
+            <!-- Bloque de Pregunta -->
+            <div class="mb-6">
+                <span id="chap-tag" class="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-md bg-red-950/60 text-red-300 border border-red-950 mb-3 backdrop-blur-sm">
+                    Capítulo
+                </span>
+                <h2 id="question-text" class="text-lg md:text-xl font-semibold text-gray-100 leading-relaxed mb-6 drop-shadow">
+                    Preparando el descenso...
+                </h2>
+                
+                <!-- Opciones -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Inyectado por JS -->
+                </div>
+            </div>
+
+            <!-- Feedback en vivo -->
+            <div id="feedback-box" class="hidden p-4 rounded-xl text-sm font-medium transition-all duration-300 text-center border backdrop-blur-md"></div>
+        </div>
+
+        <!-- Pantalla de Resultados Finales -->
+        <div id="results-screen" class="hidden text-center py-6 animate-fade-in">
+            <div class="text-4xl mb-3">🪦</div>
+            <h2 class="gothic-title text-2xl md:text-3xl font-bold text-red-500 mb-2 pulse-text">
+                EL RECORRIDO HA TERMINADO
+            </h2>
+            <p class="text-gray-200 text-sm md:text-base mb-6 max-w-md mx-auto drop-shadow">
+                Has atravesado los capítulos más oscuros y desesperantes de la tragedia de Louis Creed.
+            </p>
+            
+            <div class="bg-black/60 border border-red-900/40 p-5 rounded-xl max-w-sm mx-auto mb-8 shadow-inner backdrop-blur-md">
+                <div class="text-xs uppercase tracking-widest text-gray-300 mb-1">TIEMPO TOTAL (CON PENALIZACIONES)</div>
+                <div id="final-time" class="font-mono text-3xl md:text-4xl font-extrabold text-amber-400">00:00</div>
+            </div>
+
+            <button onclick="startGame()" class="blood-btn text-white font-bold py-3.5 px-8 rounded-xl tracking-wider uppercase text-sm shadow-lg cursor-pointer">
+                Atravesar el Sendero Nuevamente
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="text-center text-xs text-gray-300 mt-6 tracking-wide z-10 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+        Inspirado en la obra maestra de terror de Stephen King • Edición Gótica Interactiva
+    </footer>
+
+    <!-- Lógica JavaScript -->
+    <script>
+        const questions = [
+            {
+                chap: "Capítulo 36: El velatorio de Gage",
+                q: "¿Quién aparece durante el velatorio generando un fuerte conflicto con Louis por nunca haber aprobado su matrimonio con Rachel?",
+                opts: [
+                    { text: "Steve Masterton, su fiel compañero de trabajo en la universidad", correct: false, r: "Steve intenta ayudar y acompañar a la familia en medio del dolor." },
+                    { text: "Irwin Goldman, el padre de Rachel", correct: true, r: "¡Exacto! Irwin rechaza a Louis con dureza y desata la tensión familiar." },
+                    { text: "Missy Dandridge, la vecina y ex niñera de los niños", correct: false, r: "Missy asiste triste a despedir a Gage, pero Louis intenta consolarla." }
+                ]
+            },
+            {
+                chap: "Capítulo 37: La pelea durante el funeral",
+                q: "¿Qué evento trágico y espeluznante ocurre de forma imprevista en medio de la pelea física entre Louis e Irwin Goldman?",
+                opts: [
+                    { text: "El ataúd de Gage cae al suelo y parte del cuerpo del niño queda al descubierto", correct: true, r: "¡Correcto! Irwin cae sobre el féretro en pleno forcejeo, abriéndolo ante todos." },
+                    { text: "Rachel sufré un colapso cardíaco fulminante frente a los invitados", correct: false, r: "Rachel queda destrozada y recibe sedantes más tarde en su casa." },
+                    { text: "Steve Masterton resulta gravemente herido al intentar separarlos", correct: false, r: "Steve acompaña a Rachel después, pero no es el receptor del golpe del ataúd." }
+                ]
+            },
+            {
+                chap: "Capítulo 38: Louis comienza a pensar en el cementerio",
+                q: "¿Qué evento anterior en la familia Creed sirve como precedente directo para que Louis considere el cementerio micmac?",
+                opts: [
+                    { text: "La resurrección previa de su hija Ellie tras un accidente casero", correct: false, r: "Ellie nunca había muerto; la idea surge enteramente por la mascota." },
+                    { text: "El regreso a la vida de Church, el gato de Ellie, tras ser enterrado allí", correct: true, r: "¡Exacto! Louis recuerda que el felino volvió a la vida, aunque con una conducta extraña." },
+                    { text: "Una leyenda mítica leída en un viejo grimorio de ocultismo", correct: false, r: "Nace de su propia experiencia y memoria viviente con el terreno maldito." }
+                ]
+            },
+            {
+                chap: "Capítulo 39: La historia de Timmy Baterman",
+                q: "¿Cómo fue el comportamiento de Timmy Baterman tras regresar de la muerte, según el oscuro relato de Jud Crandall?",
+                opts: [
+                    { text: "Volvió completamente normal, agradecido y afectuoso con su padre", correct: false, r: "Timmy regresó completamente corrompido por una fuerza maligna." },
+                    { text: "Se convirtió en un ser siniestro, cruel y revelador de secretos íntimos", correct: true, r: "¡Correcto! Timmy regresó poseído, atemorizando al pueblo con información privada y cruel." },
+                    { text: "Perdió por completo la razón y vagaba en silencio absoluto por los bosques", correct: false, r: "Recordaba demasiado y usaba esa maldad para atormentar psicológicamente." }
+                ]
+            },
+            {
+                chap: "Capítulo 40: La advertencia de Jud y la decisión de Louis",
+                q: "¿Cómo concluye psicológicamente el capítulo 40 en la mente de Louis a pesar de haberle prometido a Jud no usar el cementerio?",
+                opts: [
+                    { text: "Olvida por completo la idea y acepta con paz la pérdida de su hijo", correct: false, r: "Louis jamás logra soltar el dolor; su mente sigue obsesionada." },
+                    { text: "Imaginar una vida futura donde Gage crece con éxito, culminando en un doloroso despertar que lo empuja a actuar", correct: true, r: "¡Exacto! Louis imagina un futuro feliz para Gage antes de despertar y sentir que haría cualquier cosa." },
+                    { text: "Decide huir del pueblo junto a Rachel esa misma madrugada", correct: false, r: "Se queda recluido en su casa gestionando su inminente decisión trágica." }
+                ]
+            }
+        ];
+
+        let currentIndex = 0;
+        let timerInterval = null;
+        let secondsElapsed = 0;
+        let isLocked = false;
+
+        const gameScreen = document.getElementById('game-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        const currentQEl = document.getElementById('current-q');
+        const timeDisplay = document.getElementById('time-display');
+        const chapTag = document.getElementById('chap-tag');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackBox = document.getElementById('feedback-box');
+        const finalTimeEl = document.getElementById('final-time');
+
+        function startGame() {
+            currentIndex = 0;
+            secondsElapsed = 0;
+            isLocked = false;
+            gameScreen.style.display = 'block';
+            resultsScreen.style.display = 'none';
+            
+            updateTimerDisplay();
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                updateTimerDisplay();
+            }, 1000);
+
+            loadQuestion();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+            const secs = (secondsElapsed % 60).toString().padStart(2, '0');
+            timeDisplay.innerText = `${mins}:${secs}`;
+        }
+
+        function loadQuestion() {
+            isLocked = false;
+            feedbackBox.style.display = 'none';
+            const current = questions[currentIndex];
+            currentQEl.innerText = currentIndex + 1;
+            chapTag.innerText = current.chap;
+            questionText.innerText = current.q;
+            optionsContainer.innerHTML = '';
+
+            current.opts.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-card w-full text-left p-4 rounded-xl text-sm md:text-base text-gray-200 cursor-pointer flex items-center justify-between group';
+                btn.innerHTML = `<span>${opt.text}</span> <span class="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">✦</span>`;
+                btn.onclick = () => handleAnswer(opt.correct, opt.r, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(isCorrect, rationale, btnElement) {
+            if (isLocked) return;
+            isLocked = true;
+
+            feedbackBox.style.display = 'block';
+            if (isCorrect) {
+                btnElement.style.borderColor = 'rgba(16, 185, 129, 0.8)';
+                btnElement.style.background = 'rgba(6, 78, 59, 0.65)';
+                
+                feedbackBox.className = "p-4 rounded-xl text-sm font-medium text-emerald-300 bg-emerald-950/85 border border-emerald-800/60 animate-fade-in text-center backdrop-blur-md";
+                feedbackBox.innerHTML = `<strong>¡Respuesta Correcta!</strong> ${rationale}`;
+                
+                setTimeout(() => {
+                    currentIndex++;
+                    if (currentIndex < questions.length) {
+                        loadQuestion();
+                    } else {
+                        endGame();
+                    }
+                }, 2200);
+            } else {
+                secondsElapsed += 5;
+                updateTimerDisplay();
+                
+                timeDisplay.classList.add('penalty-flash');
+                setTimeout(() => timeDisplay.classList.remove('penalty-flash'), 500);
+
+                btnElement.style.borderColor = 'rgba(239, 68, 68, 0.8)';
+                btnElement.style.background = 'rgba(127, 29, 29, 0.65)';
+                
+                feedbackBox.className = "p-4 rounded-xl text-sm font-medium text-red-300 bg-red-950/85 border border-red-800/60 animate-fade-in text-center backdrop-blur-md";
+                feedbackBox.innerHTML = `<strong>Incorrecto (+5s de penalización).</strong> ${rationale} Inténtalo otra vez.`;
+                
+                setTimeout(() => {
+                    isLocked = false;
+                }, 1200);
+            }
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            gameScreen.style.display = 'none';
+            resultsScreen.style.display = 'block';
+            finalTimeEl.innerText = timeDisplay.innerText;
+        }
+
+        window.addEventListener('DOMContentLoaded', startGame);
+    </script>
+</body>
+</html>
